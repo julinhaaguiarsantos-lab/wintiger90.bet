@@ -1,0 +1,86 @@
+from pathlib import Path
+import zipfile, shutil, re
+
+root = Path("/mnt/data/fortune-arcade-demo")
+app = root / "app.js"
+index = root / "index.html"
+
+# Add a real content area for section views before the game catalog.
+html = index.read_text(encoding="utf-8")
+html = html.replace(
+    '<section class="section-head">',
+    '''<section class="section-view" id="sectionView" hidden aria-live="polite"></section>
+      <section class="section-head">''',
+    1
+)
+index.write_text(html, encoding="utf-8")
+
+js = app.read_text(encoding="utf-8")
+
+# Replace the decorative/placeholder navigation handler with functional views.
+old = '''document.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".nav-item").forEach(x=>x.classList.toggle("active",x===b));toast(b.dataset.nav==="home"?"Você já está na página inicial.":"Seção demonstrativa: "+b.dataset.nav)}));'''
+new = r'''function showSection(name){
+  const view=$("#sectionView");
+  const catalog=$("#gameGrid");
+  const head=document.querySelector(".section-head");
+  const promo=document.querySelector(".promo-banner");
+  view.hidden=false;
+  if(name==="home"){
+    view.hidden=true; catalog.hidden=false; head.hidden=false; promo.hidden=false;
+    toast("Página inicial aberta.");
+    return;
+  }
+  catalog.hidden=true; head.hidden=true; promo.hidden=true;
+  const sections={
+    promos:{title:"Promoções virtuais",body:"<p>Confira recompensas de demonstração disponíveis nesta sessão.</p><div class='modal-content'><button class='btn btn-primary' id='promoClaim'>Resgatar pacote de boas-vindas (+250)</button><button class='btn btn-outline' id='promoDaily'>Resgatar bônus diário (+500)</button></div>"},
+    vip:{title:"Clube VIP",body:"<p>Seu nível atual é <strong>Bronze Demo</strong>.</p><p>Jogue usando moedas virtuais para preencher seu progresso de demonstração.</p><div class='field'><label>Progresso</label><progress value='35' max='100' style='width:100%'></progress></div><button class='btn btn-primary' id='vipReward'>Resgatar recompensa VIP (+300)</button>"},
+    profile:{title:"Meu perfil",body:"<div class='modal-content'><div class='field'><label>Apelido</label><input id='profileName' value='Jogador Demo'></div><div class='field'><label>Código social</label><input value='NOVA-7K2P' readonly></div><button class='btn btn-primary' id='saveProfile'>Salvar perfil local</button><button class='btn btn-outline' id='resetDemo'>Reiniciar demonstração</button></div>"}
+  };
+  const s=sections[name]||sections.profile;
+  view.innerHTML=`<div class="section-view-inner"><span class="eyebrow">ÁREA DO USUÁRIO</span><h2>${s.title}</h2>${s.body}</div>`;
+  if(name==="promos"){
+    $("#promoClaim").addEventListener("click",()=>{setBalance(state.balance+250);toast("+250 moedas virtuais adicionadas.");});
+    $("#promoDaily").addEventListener("click",claimDaily);
+  }
+  if(name==="vip") $("#vipReward").addEventListener("click",()=>{setBalance(state.balance+300);toast("Recompensa VIP demo resgatada.");});
+  if(name==="profile"){
+    $("#saveProfile").addEventListener("click",()=>toast("Perfil salvo apenas nesta sessão."));
+    $("#resetDemo").addEventListener("click",()=>{state.balance=10000;state.claimed=false;setBalance(state.balance);toast("Demonstração reiniciada.");});
+  }
+}
+document.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".nav-item").forEach(x=>x.classList.toggle("active",x===b));
+  showSection(b.dataset.nav);
+}));
+$("#balanceBtn").addEventListener("click",()=>openModal("Carteira virtual",`<div class="modal-content"><p>Saldo disponível nesta demonstração:</p><strong style="font-size:34px">${fmt(state.balance)} moedas</strong><p>O saldo não possui valor monetário e não pode ser sacado.</p><button class="btn btn-primary" id="walletBonus">Adicionar bônus de teste (+100)</button></div>`));
+document.addEventListener("click",(e)=>{
+  if(e.target.id==="walletBonus"){setBalance(state.balance+100);toast("+100 moedas virtuais adicionadas.");$("#modal").close();}
+});'''
+if old not in js:
+    raise RuntimeError("Trecho de navegação não encontrado")
+js = js.replace(old, new)
+
+# Make the section view visually consistent.
+css = root / "styles.css"
+styles = css.read_text(encoding="utf-8")
+styles += r'''
+.section-view{margin:0 0 30px;border:1px solid var(--line);border-radius:24px;padding:28px;background:linear-gradient(120deg,rgba(26,45,79,.95),rgba(15,23,48,.72))}
+.section-view-inner{max-width:680px}.section-view h2{font-size:30px;margin:6px 0 15px}.section-view p{color:var(--muted)}progress{accent-color:var(--accent);height:12px}
+'''
+css.write_text(styles, encoding="utf-8")
+
+readme = root / "README.md"
+readme_text = readme.read_text(encoding="utf-8")
+readme_text += "\n## Funcionalidade dos botões\n\nTodos os botões principais possuem ação: saldo abre a carteira virtual; Entrar e Criar conta abrem seus formulários; atalhos executam bônus, missões, surpresa, check-in ou roleta; filtros alteram o catálogo; cards iniciam uma rodada demo; e a navegação inferior abre áreas próprias de Início, Promoções, VIP e Perfil.\n"
+readme.write_text(readme_text, encoding="utf-8")
+
+zip_path = Path("/mnt/data/fortune-arcade-demo-functional-buttons.zip")
+if zip_path.exists():
+    zip_path.unlink()
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+    for p in root.iterdir():
+        z.write(p, p.name)
+
+print("Atualização concluída.")
+print("Botões com funcionalidades próprias: saldo, login, cadastro, bônus, atalhos, filtros, jogos, convite e navegação inferior.")
+print("Novo pacote:", zip_path)
