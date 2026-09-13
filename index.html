@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fortune Arcade — Social Casino Demo</title>
+  <meta name="description" content="Demonstração de uma plataforma de jogos sociais com moedas virtuais. Sem dinheiro real.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Página inicial">
+        <span class="brand-mark">✦</span><span id="brandName">FORTUNE ARCADE</span>
+      </a>
+      <div class="top-actions">
+        <button class="balance" id="balanceBtn" title="Saldo virtual">
+          <span>🪙</span><strong id="balance">10.000</strong><small>moedas</small>
+        </button>
+        <button class="btn btn-primary" id="loginBtn">Entrar</button>
+        <button class="btn btn-ghost" id="signupBtn">Criar conta</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">EXPERIÊNCIA SOCIAL • 100% VIRTUAL</span>
+          <h1>Jogue por diversão.<br><span>Ganhe momentos.</span></h1>
+          <p>Slots temáticos, missões diárias e recompensas virtuais em uma experiência leve e responsiva.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-large" id="playFeatured">Jogar destaque →</button>
+            <button class="btn btn-outline btn-large" id="dailyBtn">Resgatar bônus diário</button>
+          </div>
+          <div class="hero-note">Sem depósitos, saques ou prêmios em dinheiro real.</div>
+        </div>
+        <div class="hero-art" aria-label="Ilustração decorativa">
+          <div class="orb orb-a"></div><div class="orb orb-b"></div>
+          <div class="jackpot-card">
+            <span>DESTAQUE DO DIA</span>
+            <strong>FORTUNE<br>TIGER</strong>
+            <div class="jackpot-symbol">🐯</div>
+            <small>Prêmio demonstrativo: +500 moedas</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="quick-grid" aria-label="Atalhos">
+        <button class="quick-card" data-action="daily"><span>🎁</span><strong>Resgatar</strong><small>Bônus diário</small></button>
+        <button class="quick-card" data-action="missions"><span>🏆</span><strong>Missões</strong><small>Complete e acumule</small></button>
+        <button class="quick-card" data-action="mystery"><span>🎲</span><strong>Misterioso</strong><small>Surpresa virtual</small></button>
+        <button class="quick-card" data-action="checkin"><span>📅</span><strong>Check-in</strong><small>Sequência semanal</small></button>
+        <button class="quick-card" data-action="wheel"><span>🎡</span><strong>Roleta</strong><small>Gire uma vez</small></button>
+      </section>
+
+      <section class="section-view" id="sectionView" hidden aria-live="polite"></section>
+      <section class="section-head">
+        <div><span class="eyebrow">CATÁLOGO</span><h2>Encontre seu próximo jogo</h2></div>
+        <div class="filters" role="group" aria-label="Filtros de jogos">
+          <button class="filter active" data-filter="hot">🔥 Quentes</button>
+          <button class="filter" data-filter="new">✨ Novos</button>
+          <button class="filter" data-filter="all">Todos</button>
+        </div>
+      </section>
+
+      <section class="game-grid" id="gameGrid"></section>
+
+      <section class="promo-banner">
+        <div><span class="eyebrow">PROGRESSO VIRTUAL</span><h2>Convide amigos e desbloqueie cosméticos.</h2><p>Compartilhe um código fictício e avance no seu perfil social.</p></div>
+        <button class="btn btn-outline" id="inviteBtn">Ver convite</button>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navegação principal">
+      <button class="nav-item active" data-nav="home">⌂<span>Início</span></button>
+      <button class="nav-item" data-nav="promos">🎁<span>Promoções</span></button>
+      <button class="nav-item" data-nav="vip">👑<span>VIP</span></button>
+      <button class="nav-item" data-nav="profile">◉<span>Pessoal</span></button>
+    </nav>
+  </div>
+
+  <dialog id="modal">
+    <div class="modal-head"><h3 id="modalTitle">Bem-vindo</h3><button class="icon-btn" id="closeModal">×</button></div>
+    <div id="modalBody"></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
