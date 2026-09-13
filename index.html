@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tiger Gold — Slot Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><img src="assets/tiger.png" alt="" class="brand-tiger"><span>TIGER GOLD</span></div>
+    <div class="balance"><small>CRÉDITOS DEMO</small><strong id="balance">1.000</strong></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">SLOT DEMO • MOEDAS VIRTUAIS</p>
+        <h1>Lucky Tiger</h1>
+        <p class="subtitle">Um caça-níquel original com artes próprias e estética dourada inspirada em festivais asiáticos. Sem dinheiro real.</p>
+      </div>
+      <img src="assets/hero.png" alt="Tigre dourado segurando um lingote" class="hero-art">
+      <button id="soundBtn" class="icon-btn" aria-label="Som">🔊</button>
+    </section>
+
+    <section class="game-card">
+      <div class="game-top">
+        <span>APOSTA <b id="betLabel">10</b></span>
+        <span id="message">Boa sorte!</span>
+      </div>
+
+      <div class="reel-stage" id="reelStage"><div class="reel-glow"></div><div class="reels" id="reels">
+        <div class="reel"><div class="symbol"><img src="assets/tiger.png" alt="Tigre"></div><div class="symbol"><img src="assets/red-envelope.png" alt="Envelope da sorte"></div><div class="symbol"><img src="assets/orange.png" alt="Laranja"></div></div>
+        <div class="reel"><div class="symbol"><img src="assets/coin.png" alt="Moeda"></div><div class="symbol"><img src="assets/tiger.png" alt="Tigre"></div><div class="symbol"><img src="assets/jade.png" alt="Jade"></div></div>
+        <div class="reel"><div class="symbol"><img src="assets/orange.png" alt="Laranja"></div><div class="symbol"><img src="assets/red-envelope.png" alt="Envelope da sorte"></div><div class="symbol"><img src="assets/tiger.png" alt="Tigre"></div></div>
+      </div><div class="reel-shine"></div></div>
+
+      <div class="payline">━━ LINHA DE PAGAMENTO ━━</div>
+
+      <div class="controls">
+        <div class="bet-controls">
+          <button id="minus">−</button>
+          <span id="bet">10</span>
+          <button id="plus">+</button>
+        </div>
+        <button id="spin" class="spin">GIRAR</button>
+        <button id="max" class="secondary">MAX</button>
+      </div>
+
+      <div class="win" id="win"></div><div class="fx-layer" id="fxLayer"></div>
+    </section>
+
+    <section class="info">
+      <div class="panel">
+        <h2>Pagamentos</h2>
+        <div class="pay"><span><img src="assets/tiger.png" alt=""> ×3</span><b>50×</b></div>
+        <div class="pay"><span><img src="assets/gold.png" alt=""> ×3</span><b>25×</b></div>
+        <div class="pay"><span><img src="assets/coin.png" alt=""> ×3</span><b>15×</b></div>
+        <div class="pay"><span><img src="assets/red-envelope.png" alt=""> ×3</span><b>10×</b></div>
+        <div class="pay"><span><img src="assets/orange.png" alt=""> ×3</span><b>5×</b></div>
+      </div>
+      <div class="panel">
+        <h2>Como funciona</h2>
+        <p>Este é um protótipo recreativo. O resultado é calculado no navegador e o saldo é fictício. Não há depósitos, saques, PIX ou apostas com dinheiro real.</p>
+        <button class="reset" id="reset">Reiniciar créditos</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2026 Tiger Gold Demo · Projeto experimental com créditos fictícios</footer>
+  <script src="script.js"></script>
+</body>
+</html>
